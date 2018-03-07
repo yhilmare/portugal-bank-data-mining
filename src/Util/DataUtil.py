@@ -9,7 +9,7 @@ import re
 import Util.RandomUtil as RandomUtil
 from lib import RFLib as RFLib
 
-filePath = r"/Users/yh_swjtu/Desktop/数据挖掘/bank-additional"
+filePath = r"G:\研究生课件\数据挖掘\实验数据"
 
 '''
 ==========================与随机森林及决策树有关的工具类==============================

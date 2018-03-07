@@ -8,7 +8,7 @@ from lib import LogisticLib as LRLib
 import time
 import csv
 
-filePath = r"/Users/yh_swjtu/Desktop/数据挖掘/bank-additional"
+filePath = r"G:\研究生课件\数据挖掘\实验数据"
 
 def loaddata_temp(filename):
     try:
