@@ -72,20 +72,9 @@ def generateWeakLearner(trainSet, trainLabel):
         Tree[index][value] = generateWeakLearner(subSet, label)
     return Tree
 
-def generateTrainSetForRMModel(dataSet, labelSet):
-    trainSet = []
-    trainLabel = []
-    m = len(labelSet)
-    for i in range(m):
-        index = np.random.randint(0, m, 1)[0]
-        trainSet.append(dataSet[index])
-        trainLabel.append(labelSet[index])
-    return trainSet, trainLabel
-
 def generateRandomForest(trainSet, trainLabel, T):
     forest = []
     for i in range(T):
-        trainSet, trainLabel = generateTrainSetForRMModel(trainSet, trainLabel)
         model = generateWeakLearner(trainSet, trainLabel)
         forest.append(model)
     return forest
