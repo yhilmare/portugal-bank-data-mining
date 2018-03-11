@@ -7,4 +7,4 @@ This repository consists of three folders, Unit, lib and Util respectively. The 
 <h2>Result</h2>
 The writer did some experiments on this data set. The result shows that the LogisticRegression model has the best performance and the DecisionTree performs worst.<br/>
 <h2>More</h2>
-If you want to learn more, you can login my personal blog <a href="http://www.ilmareblog.com" target="_blank">ILMARE</a> and click <a href="http://www.ilmareblog.com/blog/GenArticleController?article_id=f60a3ead-df93-4fbf-a726-efe731ac9539&visitor_id=notlogin">here</a> to know more.
+If you want to learn more, you can visit my personal blog <a href="http://www.ilmareblog.com" target="_blank">ILMARE</a> and click <a href="http://www.ilmareblog.com/blog/GenArticleController?article_id=f60a3ead-df93-4fbf-a726-efe731ac9539&visitor_id=notlogin">here</a> to know more.
