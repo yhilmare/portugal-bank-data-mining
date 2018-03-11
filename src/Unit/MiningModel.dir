@@ -2,3 +2,5 @@
 'DTModelCorrectRatio', (8192, 12)
 'RFModel', (236544, 216847)
 'RFModelCorrectRatio', (236032, 12)
+'LRModel', (453632, 424)
+'LRModelCorrectRatio', (454144, 12)
