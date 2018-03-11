@@ -38,7 +38,7 @@ def serializeDTModel():
     db["DTModelCorrectRatio"] = maxRatio
     db.close()
 
-def serializeDTModel():
+def serializeRFModel():
     start = time.clock()
     dataSet, labelSet = loadDataSet("bank-additional")
     maxRatio = 0
