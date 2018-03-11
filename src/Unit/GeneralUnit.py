@@ -10,7 +10,6 @@ import lib.RFLib as RFLib
 import lib.LogisticLib as LRLib
 import lib.SVMLib as SVMLib
 import sys
-from pip._vendor.webencodings.labels import LABELS
 
 def loadDataSet(filename):
     print("Loading data...")
@@ -62,8 +61,10 @@ def serializeRFModel():
     db.close()
 
 def serializeLRModel():
-    dataSet, labelSet = DataUtil.loadDataForSVMOrLRModel("bank-additional")
-#     dataSet, labelSet = DataUtil.loadTempDataForSVMOrLRModel("bank-addtional-format-lr")
+    try:
+        dataSet, labelSet = DataUtil.loadTempDataForSVMOrLRModel("bank-addtional-format-lr")
+    except Exception as e:
+        dataSet, labelSet = DataUtil.loadDataForSVMOrLRModel("bank-additional")    
     dataSet, labelSet = DataUtil.underSampling(dataSet, labelSet, 1, 0)
     trainSet, trainLabel, testSet, testLabel = DataUtil.generateTrainSet(dataSet, labelSet)
     weight, logList = LRLib.stocGradDescent(trainSet, trainLabel)
@@ -80,7 +81,10 @@ def serializeLRModel():
     db.close()
 
 def serializeSVMModel():
-    dataSet, labelSet = DataUtil.loadTempDataForSVMOrLRModel("bank-addtional-format-svm")
+    try:
+        dataSet, labelSet = DataUtil.loadTempDataForSVMOrLRModel("bank-addtional-format-svm")
+    except Exception as e:
+        dataSet, labelSet = DataUtil.loadDataForSVMOrLRModel("bank-additional")
     dataSet, labelSet = DataUtil.underSampling(dataSet, labelSet, 1, -1)
     trainSet, trainLabel, testSet, testLabel = DataUtil.generateTrainSet(dataSet, labelSet)
     kTup = ("lin", 1.3)

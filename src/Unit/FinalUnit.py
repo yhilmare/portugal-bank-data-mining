@@ -13,7 +13,6 @@ import lib.RFLib as RFLib
 import lib.LogisticLib as LRLib
 import lib.SVMLib as SVMLib
 
-
 def testDTModel(filename="bank-additional"):
     db = shelve.open("{0}/MiningModel".format(sys.path[0]))
     maxCorrectRatio = db["DTModelCorrectRatio"]
@@ -42,13 +41,13 @@ def testRFModel(filename="bank-additional"):
     errorRatio = error / len(dataSet)
     print("RF:error ratio:%.3f, correct ratio:%.3f, correct ratio on trainSet:%.3f" % (errorRatio, 1 - errorRatio, maxCorrectRatio))
  
-def testLRModel():
+def testLRModel(filename="bank-additional"):
     db = shelve.open("{0}/MiningModel".format(sys.path[0]))
     maxCorrectRatio = db["LRModelCorrectRatio"]
     weight = db["LRModel"]
     db.close()
-    dataSet, labelSet = DataUtil.loadTempDataForSVMOrLRModel("bank-addtional-format-lr")
-#     dataSet, labelSet = DataUtil.loadDataForSVMOrLRModel("bank-additional", "lr")
+#     dataSet, labelSet = DataUtil.loadTempDataForSVMOrLRModel("bank-addtional-format-lr")
+    dataSet, labelSet = DataUtil.loadDataForSVMOrLRModel(filename, "lr")
     error = 0
     for data, label in zip(dataSet, labelSet):
         predict_label = LRLib.classifyVector(data, weight)
@@ -57,13 +56,13 @@ def testLRModel():
     errorRatio = error / len(dataSet)
     print("LR:error ratio:%.3f, correct ratio:%.3f, correct ratio on trainSet:%.3f" % (errorRatio, 1 - errorRatio, maxCorrectRatio))
  
-def testSVMModel():
+def testSVMModel(filename="bank-additional"):
     db = shelve.open("{0}/MiningModel".format(sys.path[0]))
     maxCorrectRatio = db["SVMModelCorrectRatio"]
     model = db["SVMModel"]
     db.close()
-    dataSet, labelSet = DataUtil.loadTempDataForSVMOrLRModel("bank-addtional-format-svm")
-#     dataSet, labelSet = DataUtil.loadDataForSVMOrLRModel("bank-additional", "svm")
+#     dataSet, labelSet = DataUtil.loadTempDataForSVMOrLRModel("bank-addtional-format-svm")
+    dataSet, labelSet = DataUtil.loadDataForSVMOrLRModel(filename, "svm")
     error = 0
     for data, label in zip(dataSet, labelSet):
         predict_label = SVMLib.predictLabel(data, *model)
