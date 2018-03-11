@@ -142,12 +142,15 @@ def realSMO(trainSet, trainLabels, C, toler, kTup=('lin', 1.3), maxIter=40):
             print("iter num: %d" % (iterNum))
     return obj.alphas, obj.b
 
-def predictLabel(trainSet, trainLabel, alphas, b, data, kTup):
+def getSupportVectorandSupportLabel(trainSet, trainLabel, alphas):
     vaildalphaList = np.nonzero(alphas.A)[0]
     dataMatrix = np.matrix(trainSet, dtype=np.float)
     labelMatrix = np.matrix(trainLabel, dtype=np.float).transpose()
     sv = dataMatrix[vaildalphaList]#得到支持向量
     svl = labelMatrix[vaildalphaList]
+    return sv, svl
+
+def predictLabel(data, sv, svl, alphas, b, kTup):
     kernal = kernalTransfrom(sv, np.matrix(data, dtype=np.float), kTup).transpose()
     fxi = np.multiply(svl.T, alphas[alphas != 0]) * kernal + b
     return np.sign(float(fxi))

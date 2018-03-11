@@ -6,29 +6,11 @@ Created on 2018年3月4日
 import Util.DataUtil as DataUtil
 from lib import LogisticLib as LRLib
 import time
-import csv
-
-filePath = r"G:\研究生课件\数据挖掘\实验数据"
-
-def loaddata_temp(filename):
-    try:
-        fp = open("{0}/{1}.csv".format(filePath, filename), "r")
-        reader = csv.reader(fp)
-        trainSet = []
-        trainLabel = []
-        for line in reader:
-            trainSet.append(line[0: -1])
-            trainLabel.append(int(line[-1]))
-        return trainSet, trainLabel
-    except Exception as e:
-        print(e)
-    finally:
-        fp.close()
 
 if __name__ == "__main__":
     start = time.clock()
     # dataSet, labelSet = DataUtil.loadDataForSVMOrLRModel("bank-additional")#正统方法
-    dataSet, labelSet = loaddata_temp("bank-addtional-format-lr")
+    dataSet, labelSet = DataUtil.loadTempDataForSVMOrLRModel("bank-addtional-format-lr")
     trainSet, trainLabel, testSet, testLabel = DataUtil.generateTrainSet(dataSet, labelSet)
     weight, logList = LRLib.stocGradDescent(trainSet, trainLabel)
     errorCount = 0

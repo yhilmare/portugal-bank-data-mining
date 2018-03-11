@@ -4,8 +4,6 @@ Created on 2018年3月4日
 @author: IL MARE
 '''
 import numpy as np
-
-
 '''
 该函数用来在一个集合中随机抽取size个互不相同的随机值
 '''

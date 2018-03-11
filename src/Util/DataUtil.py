@@ -77,6 +77,23 @@ global_var_order = {3:['illiterate', 'basic.4y', 'basic.6y', 'basic.9y', 'high.s
                     8:['mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'],
                     9:['mon', 'tue', 'wed', 'thu', 'fri']}
 '''
+读取处理好的数据，加快模型测试速度
+'''
+def loadTempDataForSVMOrLRModel(filename):
+    try:
+        fp = open("{0}/{1}.csv".format(filePath, filename), "r")
+        reader = csv.reader(fp)
+        trainSet = []
+        trainLabel = []
+        for line in reader:
+            trainSet.append(line[0: -1])
+            trainLabel.append(int(line[-1]))
+        return trainSet, trainLabel
+    except Exception as e:
+        print(e)
+    finally:
+        fp.close()
+'''
 为SVM和对数回归模型生成数据，重点的功能是将数据量化处理
 '''
 def loadDataForSVMOrLRModel(filename, modelType="lr"):

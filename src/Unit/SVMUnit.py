@@ -4,38 +4,21 @@ Created on 2018年3月4日
 @author: IL MARE
 '''
 import time
-import csv
 from lib import SVMLib as SVMLib
 from Util import DataUtil as DataUtil
-
-filePath = r"G:\研究生课件\数据挖掘\实验数据"
-
-def loaddata_temp(filename):
-    try:
-        fp = open("{0}/{1}.csv".format(filePath, filename), "r")
-        reader = csv.reader(fp)
-        trainSet = []
-        trainLabel = []
-        for line in reader:
-            trainSet.append(line[0: -1])
-            trainLabel.append(int(line[-1]))
-        return trainSet, trainLabel
-    except Exception as e:
-        print(e)
-    finally:
-        fp.close()
 
 if __name__ == "__main__":
     start = time.clock()
     # dataSet, labelSet = DataUtil.loadDataForSVMOrLRModel("bank-additional", "svm")#正统方法
-    dataSet, labelSet = loaddata_temp("bank-addtional-format-svm")
+    dataSet, labelSet = DataUtil.loadTempDataForSVMOrLRModel("bank-addtional-format-svm")
     dataSet, labelSet = DataUtil.underSampling(dataSet, labelSet, 1, -1)
     trainSet, trainLabel, testSet, testLabel = DataUtil.generateTrainSet(dataSet, labelSet)
-    kTup = ("lin", 0.1)
+    kTup = ("lin", 1.3)
     alphas, b = SVMLib.realSMO(trainSet, trainLabel, 0.6, 0.01, kTup, 10)
     errorCount = 0
+    sv, svl = SVMLib.getSupportVectorandSupportLabel(trainSet, trainLabel, alphas)
     for data, label in zip(testSet, testLabel):
-        predict_label = SVMLib.predictLabel(trainSet, trainLabel, alphas, b, data, kTup)
+        predict_label = SVMLib.predictLabel(data, *[sv, svl, alphas, b, kTup])
         if predict_label != label:
             errorCount += 1
     ratio = errorCount / len(testLabel)

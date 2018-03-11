@@ -4,3 +4,5 @@
 'RFModelCorrectRatio', (236032, 12)
 'LRModel', (453632, 424)
 'LRModelCorrectRatio', (454144, 12)
+'SVMModel', (454656, 66437)
+'SVMModelCorrectRatio', (525312, 12)

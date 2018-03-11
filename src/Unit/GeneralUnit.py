@@ -8,11 +8,8 @@ import Util.DataUtil as DataUtil
 import lib.DecisionTreeLib as DTLib
 import lib.RFLib as RFLib
 import lib.LogisticLib as LRLib
-import csv
-import time
-import numpy as np
-
-filePath = r"G:\研究生课件\数据挖掘\实验数据"
+import lib.SVMLib as SVMLib
+import sys
 
 def loadDataSet(filename):
     print("Loading data...")
@@ -24,7 +21,6 @@ def loadDataSet(filename):
     return dataSet, labelSet
 
 def serializeDTModel():
-    start = time.clock()
     dataSet, labelSet = loadDataSet("bank-additional")
     tmp_lst = []
     maxRatio = 0
@@ -37,13 +33,12 @@ def serializeDTModel():
         if (1 - errorRatio) > maxRatio:
             maxRatio = 1 - errorRatio
             finalModel = model
-    db = shelve.open("MiningModel")
+    db = shelve.open("{0}/MiningModel".format(sys.path[0]))
     db["DTModel"] = finalModel
     db["DTModelCorrectRatio"] = maxRatio
     db.close()
 
 def serializeRFModel():
-    start = time.clock()
     dataSet, labelSet = loadDataSet("bank-additional")
     maxRatio = 0
     finalModel = None
@@ -60,29 +55,13 @@ def serializeRFModel():
             maxRatio = 1 - RFratio
             finalModel = forest
         print("RF:total error ratio is %.3f, correct ratio is %.3f" % (RFratio, 1 - RFratio))
-    db = shelve.open("MiningModel")
+    db = shelve.open("{0}/MiningModel".format(sys.path[0]))
     db["RFModel"] = finalModel
     db["RFModelCorrectRatio"] = maxRatio
     db.close()
 
-def loaddata_temp(filename):
-    try:
-        fp = open("{0}/{1}.csv".format(filePath, filename), "r")
-        reader = csv.reader(fp)
-        trainSet = []
-        trainLabel = []
-        for line in reader:
-            trainSet.append(line[0: -1])
-            trainLabel.append(int(line[-1]))
-        return trainSet, trainLabel
-    except Exception as e:
-        print(e)
-    finally:
-        fp.close()
-
-if __name__ == "__main__":
-    start = time.clock()
-    dataSet, labelSet = loaddata_temp("bank-addtional-format-lr")
+def serializeLRModel():
+    dataSet, labelSet = DataUtil.loadTempDataForSVMOrLRModel("bank-addtional-format-lr")
     trainSet, trainLabel, testSet, testLabel = DataUtil.generateTrainSet(dataSet, labelSet)
     weight, logList = LRLib.stocGradDescent(trainSet, trainLabel)
     errorCount = 0
@@ -91,8 +70,30 @@ if __name__ == "__main__":
         if predict_label != label:
             errorCount += 1
     ratio = errorCount / len(testLabel)
-    print("the error ratio is %.3f, the correct ratio is %.3f -- %.3fs" % (ratio, 1 - ratio, time.clock() - start))
-    db = shelve.open("MiningModel")
+    print("the error ratio is %.3f, the correct ratio is %.3f" % (ratio, 1 - ratio))
+    db = shelve.open("{0}/MiningModel".format(sys.path[0]))
     db["LRModel"] = weight
     db["LRModelCorrectRatio"] = 1 - ratio
     db.close()
+
+def serializeSVMModel():
+    dataSet, labelSet = DataUtil.loadTempDataForSVMOrLRModel("bank-addtional-format-svm")
+    dataSet, labelSet = DataUtil.underSampling(dataSet, labelSet, 1, -1)
+    trainSet, trainLabel, testSet, testLabel = DataUtil.generateTrainSet(dataSet, labelSet)
+    kTup = ("lin", 1.3)
+    alphas, b = SVMLib.realSMO(trainSet, trainLabel, 0.6, 0.01, kTup, 10)
+    errorCount = 0
+    sv, svl = SVMLib.getSupportVectorandSupportLabel(trainSet, trainLabel, alphas)
+    for data, label in zip(testSet, testLabel):
+        predict_label = SVMLib.predictLabel(data, *[sv, svl, alphas, b, kTup])
+        if predict_label != label:
+            errorCount += 1
+    ratio = errorCount / len(testLabel)
+    print("the error ratio is %.3f, the correct ratio is %.3f" % (ratio, 1 - ratio))
+    db = shelve.open("{0}/MiningModel".format(sys.path[0]))
+    db['SVMModel'] = [sv, svl, alphas, b, kTup]
+    db['SVMModelCorrectRatio'] = 1 - ratio
+    db.close()
+
+if __name__ == "__main__":
+    serializeLRModel()
