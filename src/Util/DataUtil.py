@@ -111,7 +111,7 @@ def loadDataForSVMOrLRModel(filename, modelType="lr"):
             trainLabel.append(tmp_lst[-1])
         fullfilltheUnknownValue(trainSet, trainLabel)
         quantizedData(trainSet, trainLabel, modelType)
-        normalData(trainSet)
+        normalData(trainSet, modelType)
         return trainSet, trainLabel
     except Exception as e:
         print(e)
@@ -120,7 +120,7 @@ def loadDataForSVMOrLRModel(filename, modelType="lr"):
 '''
 正规化数据
 '''
-def normalData(trainSet):
+def normalData(trainSet, modelType):
     tmp_lst = []
     for i in range(len(trainSet[0])):
         tmp_lst.append(np.array([item[i] for item in trainSet], dtype=np.float))
@@ -130,8 +130,10 @@ def normalData(trainSet):
     for i in range(len(trainSet)):
         for j in range(len(trainSet[i])):
             val = tmp_lst[j]
-            trainSet[i][j] = (float(trainSet[i][j]) - val[2]) / val[3]
-            # trainSet[i][j] = (float(trainSet[i][j]) - val[0]) / (val[1] - val[0])
+            if modelType == "lr":
+                trainSet[i][j] = (float(trainSet[i][j]) - val[0]) / (val[1] - val[0])
+            else:
+                trainSet[i][j] = (float(trainSet[i][j]) - val[2]) / val[3]
 '''
 为随机森林预测模型产生数据，该函数的作用是删除数据集中unknown的数据
 '''

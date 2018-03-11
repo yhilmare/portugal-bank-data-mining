@@ -26,7 +26,7 @@ def testDTModel(filename="bank-additional"):
         if predict_label != label:
             error += 1
     errorRatio = error / len(dataSet)
-    print("决策树：错误率：%.3f，正确率：%.3f，训练集正确率：%.3f" % (errorRatio, 1 - errorRatio, maxCorrectRatio))
+    print("DT:error ratio:%.3f, correct ratio:%.3f, correct ratio on trainSet:%.3f" % (errorRatio, 1 - errorRatio, maxCorrectRatio))
  
 def testRFModel(filename="bank-additional"):
     db = shelve.open("{0}/MiningModel".format(sys.path[0]))
@@ -40,35 +40,37 @@ def testRFModel(filename="bank-additional"):
         if predict_label != label:
             error += 1
     errorRatio = error / len(dataSet)
-    print("随机森林：错误率：%.3f，正确率：%.3f，训练集正确率：%.3f" % (errorRatio, 1 - errorRatio, maxCorrectRatio))
+    print("RF:error ratio:%.3f, correct ratio:%.3f, correct ratio on trainSet:%.3f" % (errorRatio, 1 - errorRatio, maxCorrectRatio))
  
 def testLRModel():
     db = shelve.open("{0}/MiningModel".format(sys.path[0]))
     maxCorrectRatio = db["LRModelCorrectRatio"]
     weight = db["LRModel"]
     db.close()
-    dataSet, labelSet = DataUtil.loadDataForSVMOrLRModel("bank-additional", "lr")
+    dataSet, labelSet = DataUtil.loadTempDataForSVMOrLRModel("bank-addtional-format-lr")
+#     dataSet, labelSet = DataUtil.loadDataForSVMOrLRModel("bank-additional", "lr")
     error = 0
     for data, label in zip(dataSet, labelSet):
         predict_label = LRLib.classifyVector(data, weight)
         if predict_label != label:
             error += 1
     errorRatio = error / len(dataSet)
-    print("对数回归：错误率：%.3f，正确率：%.3f，训练集正确率：%.3f" % (errorRatio, 1 - errorRatio, maxCorrectRatio))
+    print("LR:error ratio:%.3f, correct ratio:%.3f, correct ratio on trainSet:%.3f" % (errorRatio, 1 - errorRatio, maxCorrectRatio))
  
 def testSVMModel():
     db = shelve.open("{0}/MiningModel".format(sys.path[0]))
     maxCorrectRatio = db["SVMModelCorrectRatio"]
     model = db["SVMModel"]
     db.close()
-    dataSet, labelSet = DataUtil.loadDataForSVMOrLRModel("bank-additional", "svm")
+    dataSet, labelSet = DataUtil.loadTempDataForSVMOrLRModel("bank-addtional-format-svm")
+#     dataSet, labelSet = DataUtil.loadDataForSVMOrLRModel("bank-additional", "svm")
     error = 0
     for data, label in zip(dataSet, labelSet):
         predict_label = SVMLib.predictLabel(data, *model)
         if predict_label != label:
             error += 1
     errorRatio = error / len(dataSet)
-    print("SVM：错误率：%.3f，正确率：%.3f，训练集正确率：%.3f" % (errorRatio, 1 - errorRatio, maxCorrectRatio))
+    print("SVM:error ratio:%.3f, correct ratio:%.3f, correct ratio on trainSet:%.3f" % (errorRatio, 1 - errorRatio, maxCorrectRatio))
 
 if __name__ == "__main__":
     testDTModel()
