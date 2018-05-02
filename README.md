@@ -13,9 +13,19 @@ If you do not want to use the model that the author gives, you can also train th
 
 ## Result
 
-The writer did some experiments on this data set. The result shows that the Logistic regression model has the best performance and the Decision tree performs worst on the train set, but the SVM model performs best when the author tests the model by using the full data set. The results just like this:![result](https://github.com/yhswjtuILMARE/DataMiningOfBank/blob/master/Images/result.png)
+The writer did some experiments on this data set. The result shows that the Logistic regression model has the best performance and the Decision tree performs worst on the train set, but the SVM model performs best when the author tests the model by using the full data set. The results just like this:
 
-<p>The Decision tree model performs well as well, and this model can classify the 84.6% data of the data set correctly. The author did hundreds of experiments, and find out that the accuracy of the decision tree model is very stable. The average accuracy of this model converges to 0.62. The author can illustrate this tendency like this:</p><img src="https://github.com/yhswjtuILMARE/DataMiningOfBank/blob/master/Images/dt.png"/>
-<p>The Random forest model can be understood as an intergration of many decision tree models. The author did some experiments to find out how the number of basic learner of the random forest affects the accuracy of the model. The result is just like this:</p><img src="https://github.com/yhswjtuILMARE/DataMiningOfBank/blob/master/Images/rf.png"/><p>We can conclude that the accuracy of the model increases as the number of model-based learners increases. </p>
+![result](https://github.com/yhswjtuILMARE/DataMiningOfBank/blob/master/Images/result.png)
+
+The Decision tree model performs well as well, and this model can classify the 84.6% data of the data set correctly. The author did hundreds of experiments, and find out that the accuracy of the decision tree model is very stable. The average accuracy of this model converges to 0.62. The author can illustrate this tendency like this:
+
+![dt](https://github.com/yhswjtuILMARE/DataMiningOfBank/blob/master/Images/dt.png)
+
+The Random forest model can be understood as an intergration of many decision tree models. The author did some experiments to find out how the number of basic learner of the random forest affects the accuracy of the model. The result is just like this:
+
+![rf](https://github.com/yhswjtuILMARE/DataMiningOfBank/blob/master/Images/rf.png)
+
+We can conclude that the accuracy of the model increases as the number of model-based learners increases. 
+
 <h2>More</h2>
 <p>If you want to know more, you can visit my personal blog <a href="http://www.ilmareblog.com" target="_blank">ILMARE</a> and click <a href="http://www.ilmareblog.com/blog/GenArticleController?article_id=f60a3ead-df93-4fbf-a726-efe731ac9539&visitor_id=notlogin">here</a> to know more.</p>
