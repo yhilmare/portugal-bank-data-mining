@@ -27,5 +27,6 @@ The Random forest model can be understood as an intergration of many decision tr
 
 We can conclude that the accuracy of the model increases as the number of model-based learners increases. 
 
-<h2>More</h2>
-<p>If you want to know more, you can visit my personal blog <a href="http://www.ilmareblog.com" target="_blank">ILMARE</a> and click <a href="http://www.ilmareblog.com/blog/GenArticleController?article_id=f60a3ead-df93-4fbf-a726-efe731ac9539&visitor_id=notlogin">here</a> to know more.</p>
+## More
+
+If you want to know more, you can visit my personal blog [IL MARE](http://www.ilmareblog.com) and click [here](http://www.ilmareblog.com/blog/GenArticleController?article_id=f60a3ead-df93-4fbf-a726-efe731ac9539&visitor_id=notlogin) to know more.
